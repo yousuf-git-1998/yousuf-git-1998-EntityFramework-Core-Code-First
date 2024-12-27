@@ -1,0 +1,132 @@
+﻿@model IEnumerable<R59_M7_Class_01_Work_01.Models.Product>
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row">
+    <div class="col-12">
+        <h3>Product List</h3>
+        <div class="d-flex justify-content-end mb-1">
+            <a class="btn btn-primary btn-sm" href="@Url.Action("Create", "Products")"><i class="bi bi-plus"></i> Create New</a>
+        </div>
+        <table class="table table-bordered">
+            <thead class="table-light">
+                <tr>
+                    <th style="width:70px"></th>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Mfg. Date</th>
+                    <th>In Stock?</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var p in Model)
+                {
+                    <tr>
+                        <td class="text-center">
+                            <span class="bi bi-chevron-right right"></span>
+                            <span class="bi bi-chevron-down down" style="display:none"></span>
+                        </td>
+                        <td>
+                            <img src="~/Pictures/@p.Picture" class="rounded-circle" style="width:40px" />
+                        </td>
+                        <td>@p.ProductName</td>
+                        <td>@p.Price.ToString("0.00")</td>
+                        <td>@p.MfgDate.ToString("yyyy-MM-dd")</td>
+                        <td>@(p.InStock.Value ? "Yes":"No")</td>
+                        <td>
+                            <a class="btn btn-secondary btn-sm" href="@Url.Action("Edit", "Products", new {id=p.ProductId})"><i class="bi bi-pencil"></i></a>
+                            <a class="btn btn-danger btn-sm" href="@Url.Action("Delete", "Products", new {id=p.ProductId})"><i class="bi bi-trash"></i></a>
+                        </td>
+                    </tr>
+                    <tr style="display:none">
+                        <td></td>
+                        <td colspan="6">
+                            <h4>Sales</h4>
+                            <table class="table table-bordered">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Seller</th>
+                                        <th>Quantity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var s in p.Sales)
+                                    {
+                                        <tr>
+                                            <td>@s.Date.ToString("yyyy-MM-dd")</td>
+                                            <td>@s.Seller.SellerName</td>
+                                            <td>@s.Quantity</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-end">
+            <ul class="pagination pagination-sm">
+                @if (ViewBag.CurrentPage > 1)
+                {
+                    <li class="page-item">
+                        @Html.ActionLink("prev", "Index", new { pg = ViewBag.CurrentPage - 1 }, new { @class = "page-link" })
+                    </li>
+                }
+                @for (var i = 1; i <= ViewBag.TotalPages; i++)
+                {
+                    if (i == ViewBag.CurrentPage)
+                    {
+                        <li class="page-item active">
+                            @Html.ActionLink(i.ToString(), "Index", new { pg = i }, new { @class = "page-link" })
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="page-item">
+                            @Html.ActionLink(i.ToString(), "Index", new { pg = i }, new { @class = "page-link" })
+                        </li>
+                    }
+                }
+                @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+                {
+                    <li class="page-item">
+                        @Html.ActionLink("next", "Index", new { pg = ViewBag.CurrentPage + 1 }, new { @class = "page-link" })
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+
+@section styles {
+    <style>
+        .right, down {
+            cursor: pointer;
+        }
+    </style>
+    <link href="~/icons/font/bootstrap-icons.css" rel="stylesheet" />
+}
+@section scripts {
+    <script src="~/Scripts/jquery-3.7.1.js"></script>
+    <script>
+        $(".down").click(function () {
+            var btn = $(this);
+            var tr = btn.closest("tr");
+            tr.next().hide();
+            btn.prev().show();
+            btn.hide();
+        })
+        $(".right").click(function () {
+            var btn = $(this);
+            var tr = btn.closest("tr");
+            tr.next().show();
+            btn.next().show();
+            btn.hide();
+        })
+    </script>
+}

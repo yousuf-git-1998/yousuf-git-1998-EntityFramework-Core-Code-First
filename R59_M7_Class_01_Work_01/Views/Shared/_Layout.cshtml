@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.bundle.js"></script>
+    <style>
+        body {
+            padding-top: 70px;
+        }
+    </style>
+    @RenderSection("styles", false)
+</head>
+<body>
+    <nav class="navbar navbar-light navbar-expand-md bg-white fixed-top shadow-sm">
+        <div class="container-fluid">
+            <span class="navbar-brand">R59 - M7<sup>01</sup></span>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbar">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        @Html.ActionLink("Home", "Index", "Home", new { }, new { @class = "nav-link" })
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Products", "Index", "Products", new { }, new { @class = "nav-link" })
+                    </li>
+                   
+
+                </ul>
+                
+            </div>
+        </div>
+    </nav>
+    <main class="container-fluid" style="min-height: calc(100vh - 130px)">
+        @RenderBody()
+    </main>
+    <footer class="container-fluid">
+        <p>&copy;Copyright info - @DateTime.Now.Year</p>
+    </footer>
+    @RenderSection("scripts", false)
+</body>
+</html>
